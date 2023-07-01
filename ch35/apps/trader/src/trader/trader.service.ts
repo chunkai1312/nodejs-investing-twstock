@@ -82,6 +82,13 @@ export class TraderService {
       });
   }
 
+  async getBalance() {
+    return this.fugle.getBalance()
+      .catch(err => {
+        throw new InternalServerErrorException(err.message);
+      });
+  }
+
   @Streamer.OnConnect()
   async onConnect() {
     this.logger.log('Streamer.onConnect');

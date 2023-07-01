@@ -32,7 +32,7 @@ export class MonitorService implements OnApplicationBootstrap, OnApplicationShut
 
     this.client.stock.on('message', (message) => {
       const { event, data } = JSON.parse(message);
-      if (event === 'data' || event === 'snapshot') this.checkMatches(data);
+      if (event === 'data') this.checkMatches(data);
     });
   }
 

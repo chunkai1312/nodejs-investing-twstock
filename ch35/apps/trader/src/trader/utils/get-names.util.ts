@@ -23,7 +23,7 @@ export function getPriceTypeName(priceFlag: string) {
     [Order.PriceFlag.Flat]: '平盤價',
     [Order.PriceFlag.LimitDown]: '跌停價',
     [Order.PriceFlag.LimitUp]: '漲停價',
-    [Order.PriceFlag.Market]: '市價價',
+    [Order.PriceFlag.Market]: '市價',
   }
   return names[priceFlag];
 }

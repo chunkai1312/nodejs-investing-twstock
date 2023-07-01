@@ -186,6 +186,10 @@ export class TwseScraperService {
       { symbol: 'IX0039', name: '金融保險類指數' },
       { symbol: 'IX0040', name: '貿易百貨類指數' },
       { symbol: 'IX0041', name: '油電燃氣類指數' },
+      { symbol: 'IX0185', name: '綠能環保類指數' },
+      { symbol: 'IX0186', name: '數位雲端類指數' },
+      { symbol: 'IX0187', name: '運動休閒類指數' },
+      { symbol: 'IX0188', name: '居家生活類指數' },
       { symbol: 'IX0042', name: '其他類指數' },
     ];
 
@@ -260,6 +264,10 @@ export class TwseScraperService {
       { symbol: 'IX0040', name: '貿易百貨類指數' },
       { symbol: 'IX0041', name: '油電燃氣類指數' },
       { symbol: 'IX0042', name: '其他類指數' },
+      { symbol: 'IX0185', name: '綠能環保類指數' },
+      { symbol: 'IX0186', name: '數位雲端類指數' },
+      { symbol: 'IX0187', name: '運動休閒類指數' },
+      { symbol: 'IX0188', name: '居家生活類指數' },
     ];
 
     return json.data.map((row, i) => {

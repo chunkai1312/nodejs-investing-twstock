@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsEnum } from 'class-validator';
+import { IsString, IsNumber, IsEnum, IsOptional } from 'class-validator';
 import { Order } from '@fugle/trade';
 
 export class PlaceOrderDto {
@@ -8,8 +8,9 @@ export class PlaceOrderDto {
   @IsEnum(Order.Side)
   buySell: string;
 
+  @IsOptional()
   @IsNumber()
-  price?: number
+  price: number
 
   @IsNumber()
   quantity: number;

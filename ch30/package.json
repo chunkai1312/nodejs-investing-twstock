@@ -5,13 +5,16 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "bin": {
+    "backtester": "bin/backtester"
+  },
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/apps/scraper/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -20,6 +23,9 @@
     "test:e2e": "echo 'No e2e tests implemented yet.'"
   },
   "dependencies": {
+    "@fugle/backtest": "^0.1.0-beta.2",
+    "@fugle/marketdata": "^1.0.3",
+    "@fugle/marketdata-nest": "^1.0.1",
     "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/axios": "^3.0.0",
     "@nestjs/common": "^10.0.0",
@@ -35,11 +41,13 @@
     "lodash": "^4.17.21",
     "luxon": "^3.3.0",
     "mongoose": "^7.3.1",
+    "nest-commander": "^3.11.0",
     "nest-line-notify": "^0.1.2",
     "nodemailer": "^6.9.3",
     "numeral": "^2.0.6",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
+    "technicalindicators": "^3.1.0",
     "yahoo-finance2": "^2.4.1"
   },
   "devDependencies": {
@@ -80,7 +88,7 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": ".",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
@@ -88,7 +96,10 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/apps/"
+    ]
   }
 }

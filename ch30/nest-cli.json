@@ -1,8 +1,32 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/scraper/src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/scraper/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/scraper",
+  "projects": {
+    "scraper": {
+      "type": "application",
+      "root": "apps/scraper",
+      "entryFile": "main",
+      "sourceRoot": "apps/scraper/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/scraper/tsconfig.app.json"
+      }
+    },
+    "backtester": {
+      "type": "application",
+      "root": "apps/backtester",
+      "entryFile": "main",
+      "sourceRoot": "apps/backtester/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/backtester/tsconfig.app.json"
+      }
+    }
   }
 }

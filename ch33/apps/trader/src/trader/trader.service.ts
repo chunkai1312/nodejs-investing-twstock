@@ -82,6 +82,13 @@ export class TraderService {
       });
   }
 
+  async getBalance() {
+    return this.fugle.getBalance()
+      .catch(err => {
+        throw new InternalServerErrorException(err.message);
+      });
+  }
+
   @Streamer.OnConnect()
   async onConnect() {
     this.logger.log('Streamer.onConnect');
@@ -127,7 +134,7 @@ export class TraderService {
 
     const message = [''].concat([
       `<<委託回報>>`,
-      `${stockNo}：${price} ${priceUnit} ${orderType} ${tradeType} ${side} ${info}`,
+      `${stockNo}: ${price} ${priceUnit} ${orderType} ${tradeType} ${side} ${info}`,
     ]).join('\n');
 
     await this.lineNotify.send({ message })
@@ -148,7 +155,7 @@ export class TraderService {
 
     const message = [''].concat([
       `<<成交回報>>`,
-      `${stockNo}：${price} ${priceUnit} ${tradeType} ${side} ${size} ${sizeUnit} 已成交`,
+      `${stockNo}: ${price} ${priceUnit} ${tradeType} ${side} ${size} ${sizeUnit} 已成交`,
     ]).join('\n');
 
     await this.lineNotify.send({ message })

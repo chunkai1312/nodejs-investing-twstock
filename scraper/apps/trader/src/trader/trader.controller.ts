@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param, Query } from '@nestjs/common';
 import { EventPattern, Payload } from '@nestjs/microservices';
 import { TraderService } from './trader.service';
 import { PlaceOrderDto } from './dto/place-order.dto';
@@ -19,7 +19,7 @@ export class TraderController {
     return this.traderService.placeOrder(placeOrderDto);
   }
 
-  @Put('/orders/:id')
+  @Patch('/orders/:id')
   async replaceOrder(@Param('id') id: string, @Body() replaceOrderDto: ReplaceOrderDto) {
     return this.traderService.replaceOrder(id, replaceOrderDto);
   }
@@ -42,6 +42,11 @@ export class TraderController {
   @Get('/settlements')
   async getSettlements() {
     return this.traderService.getSettlements();
+  }
+
+  @Get('/balance')
+  async getBalance() {
+    return this.traderService.getBalance();
   }
 
   @EventPattern('place-order')

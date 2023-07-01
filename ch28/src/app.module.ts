@@ -2,6 +2,7 @@ import { Module, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
+import { MailerModule } from '@nestjs-modules/mailer';
 import { DateTime } from 'luxon';
 import { ScraperModule } from './scraper/scraper.module';
 import { MarketStatsModule } from './market-stats/market-stats.module';
@@ -15,6 +16,19 @@ import { ReportModule } from './report/report.module';
     ConfigModule.forRoot(),
     ScheduleModule.forRoot(),
     MongooseModule.forRoot(process.env.MONGODB_URI),
+    MailerModule.forRoot({
+      transport: {
+        service: process.env.NODEMAILER_SERVICE,
+        auth: {
+          user: process.env.NODEMAILER_USER,
+          pass: process.env.NODEMAILER_PASS,
+        },
+      },
+      defaults: {
+        from: process.env.NODEMAILER_FROM,
+        to: process.env.NODEMAILER_TO,
+      },
+    }),
     ScraperModule,
     MarketStatsModule,
     TickerModule,

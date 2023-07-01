@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { LineNotifyModule } from 'nest-line-notify';
 import { DateTime } from 'luxon';
 import { ScraperModule } from './scraper/scraper.module';
 import { MarketStatsModule } from './market-stats/market-stats.module';
@@ -10,6 +11,7 @@ import { TickerModule } from './ticker/ticker.module';
 import { MarketStatsService } from './market-stats/market-stats.service';
 import { TickerService } from './ticker/ticker.service';
 import { ReportModule } from './report/report.module';
+import { ScreenerModule } from './screener/screener.module';
 
 @Module({
   imports: [
@@ -29,10 +31,14 @@ import { ReportModule } from './report/report.module';
         to: process.env.NODEMAILER_TO,
       },
     }),
+    LineNotifyModule.forRoot({
+      accessToken: process.env.LINE_NOTIFY_ACCESS_TOKEN,
+    }),
     ScraperModule,
     MarketStatsModule,
     TickerModule,
     ReportModule,
+    ScreenerModule,
   ]
 })
 export class AppModule implements OnApplicationBootstrap {
