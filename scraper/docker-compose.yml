@@ -1,0 +1,72 @@
+version: "3"
+
+services:
+  scraper:
+    build:
+      context: .
+      dockerfile: ./apps/scraper/Dockerfile
+    image: speculator/scraper:latest
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - NODEMAILER_SERVICE=${NODEMAILER_SERVICE}
+      - NODEMAILER_USER=${NODEMAILER_USER}
+      - NODEMAILER_PASS=${NODEMAILER_PASS}
+      - NODEMAILER_FROM=${NODEMAILER_FROM}
+      - NODEMAILER_TO=${NODEMAILER_TO}
+      - LINE_NOTIFY_ACCESS_TOKEN=${LINE_NOTIFY_ACCESS_TOKEN}
+      - SCRAPER_INIT_ENABLED=${SCRAPER_INIT_ENABLED}
+      - SCRAPER_INIT_DAYS=${SCRAPER_INIT_DAYS}
+    restart: always
+
+  monitor:
+    build:
+      context: .
+      dockerfile: ./apps/monitor/Dockerfile
+    image: speculator/monitor:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - FUGLE_MARKETDATA_API_KEY=${FUGLE_MARKETDATA_API_KEY}
+      - LINE_NOTIFY_ACCESS_TOKEN=${LINE_NOTIFY_ACCESS_TOKEN}
+    restart: always
+
+  trader:
+    build:
+      context: .
+      dockerfile: ./apps/trader/Dockerfile
+    image: speculator/trader:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - FUGLE_MARKETDATA_API_KEY=${FUGLE_MARKETDATA_API_KEY}
+      - FUGLE_TRADE_CERT_PATH=${FUGLE_TRADE_CERT_PATH}
+      - FUGLE_TRADE_API_URL=${FUGLE_TRADE_API_URL}
+      - FUGLE_TRADE_API_KEY=${FUGLE_TRADE_API_KEY}
+      - FUGLE_TRADE_API_SECRET=${FUGLE_TRADE_API_SECRET}
+      - FUGLE_TRADE_AID=${FUGLE_TRADE_AID}
+      - FUGLE_TRADE_PASSWORD=${FUGLE_TRADE_PASSWORD}
+      - FUGLE_TRADE_CERT_PASS=${FUGLE_TRADE_CERT_PASS}
+      - LINE_NOTIFY_ACCESS_TOKEN=${LINE_NOTIFY_ACCESS_TOKEN}
+      - ALLOWED_IPS=${ALLOWED_IPS}
+    volumes:
+      - ./certs:/home/node/certs
+    restart: always
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27018:27017"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6380:6379"
+
+volumes:
+  certs:
