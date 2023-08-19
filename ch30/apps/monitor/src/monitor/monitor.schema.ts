@@ -22,18 +22,6 @@ export class Monitor {
   }))
   alert: Record<string, any>;
 
-  @Prop(raw({
-    stockNo: { type: String },
-    buySell: { type: String },
-    price: { type: Number },
-    quantity: { type: Number },
-    apCode: { type: String },
-    priceFlag: { type: String },
-    bsFlag: { type: String },
-    trade: { type: String },
-  }))
-  order: Record<string, any>;
-
   @Prop({ default: false })
   triggered: boolean;
 }

@@ -27,6 +27,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/backtester/tsconfig.app.json"
       }
+    },
+    "monitor": {
+      "type": "application",
+      "root": "apps/monitor",
+      "entryFile": "main",
+      "sourceRoot": "apps/monitor/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/monitor/tsconfig.app.json"
+      }
     }
   }
 }
