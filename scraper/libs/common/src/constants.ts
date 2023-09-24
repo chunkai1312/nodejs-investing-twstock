@@ -1,1 +1,0 @@
-export const TRADER_SERVICE = 'TRADER_SERVICE';
