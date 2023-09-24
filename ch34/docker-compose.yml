@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/scraper/Dockerfile
-    image: speculator/scraper:latest
+    image: nodejs-investing-twstock/scraper:latest
     environment:
       - MONGODB_URI=${MONGODB_URI}
       - NODEMAILER_SERVICE=${NODEMAILER_SERVICE}
@@ -22,7 +22,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/monitor/Dockerfile
-    image: speculator/monitor:latest
+    image: nodejs-investing-twstock/monitor:latest
     ports:
       - "3000:3000"
     environment:
@@ -37,7 +37,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/trader/Dockerfile
-    image: speculator/trader:latest
+    image: nodejs-investing-twstock/trader:latest
     ports:
       - "3001:3000"
     environment:
@@ -61,12 +61,12 @@ services:
   mongo:
     image: mongo:latest
     ports:
-      - "27018:27017"
+      - "27017:27017"
 
   redis:
     image: redis:latest
     ports:
-      - "6380:6379"
+      - "6379:6379"
 
 volumes:
   certs:
