@@ -1,12 +1,20 @@
 import * as cheerio from 'cheerio';
 import * as iconv from 'iconv-lite';
-import { Injectable } from '@nestjs/common';
+import {Injectable, OnApplicationBootstrap} from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
-export class TwseScraperService {
+export class TwseScraperService implements OnApplicationBootstrap {
   constructor(private httpService: HttpService) {}
+
+  async onApplicationBootstrap() {
+    const tse = await this.fetchListedStocks({ market: 'TSE' });
+    console.log(tse);   // 顯示上市公司股票清單
+
+    const otc = await this.fetchListedStocks({ market: 'OTC' });
+    console.log(otc);   // 顯示上櫃公司股票清單
+  }
 
   async fetchListedStocks(options?: { market: 'TSE' | 'OTC' }) {
     const market = options?.market ?? 'TSE';
