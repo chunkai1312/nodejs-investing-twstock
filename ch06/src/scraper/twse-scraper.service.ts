@@ -8,6 +8,19 @@ import { firstValueFrom } from 'rxjs';
 export class TwseScraperService {
   constructor(private httpService: HttpService) {}
 
+  /**
+   * 為了測試執行結果，可加入 `onApplicationBootstrap()` 方法來執行程式。如下：
+   *
+   * async onApplicationBootstrap() {
+   *   const tse = await this.fetchListedStocks({ market: 'TSE' });
+   *   console.log(tse);  // 顯示上市公司股票清單
+   *
+   *   const otc = await this.fetchListedStocks({ market: 'OTC' });
+   *   console.log(otc);  // 顯示上櫃公司股票清單
+   * }
+   *
+   * @see https://github.com/chunkai1312/nodejs-investing-twstock/issues/1
+   */
   async fetchListedStocks(options?: { market: 'TSE' | 'OTC' }) {
     const market = options?.market ?? 'TSE';
     const url = {
