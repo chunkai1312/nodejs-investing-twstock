@@ -4,12 +4,18 @@
   <img src="https://cf-assets2.tenlong.com.tw/products/images/000/194/990/original/9786263336070.jpg" height="50%" width="50%" alt="Node.js量化投資全攻略：從資料收集到自動化交易系統建構實戰">
 </a>
 
-**購書連結：**
+* **購書實體書：**
 [天瓏網路書店](https://www.tenlong.com.tw/products/9786263336070) |
 [博客來網路書店](https://www.books.com.tw/products/0010970613) |
 [誠品書店](https://www.eslite.com/product/10012011762682463156005) |
 [蝦皮購物](https://shopee.tw/product/728783014/22357449944/) |
 [momo購物網](https://www.momoshop.com.tw/goods/GoodsDetail.jsp?i_code=11954040)
+* **購書電子書：**
+[Readmoo 讀墨](https://readmoo.com/book/210305161000101) |
+[Rakuten Kobo](https://www.kobo.com/tw/zh/ebook/node-js-ithome) |
+[Google Play](https://play.google.com/store/books/details/%E7%8E%8B%E9%9B%8B%E5%87%B1_Node_js%E9%87%8F%E5%8C%96%E6%8A%95%E8%B3%87%E5%85%A8%E6%94%BB%E7%95%A5?id=nrPoEAAAQBAJ) |
+[Pubu](https://www.pubu.com.tw/ebook/398315) |
+[博客來電子書](https://www.books.com.tw/products/E050194168)
 
 ## 書籍簡介
 
