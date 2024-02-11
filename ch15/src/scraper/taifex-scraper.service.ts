@@ -196,6 +196,76 @@ export class TaifexScraperService {
     };
   }
 
+  async fetchLargeTradersTxoPosition(options?: { date: string }) {
+    const date = options?.date ?? DateTime.local().toISODate();
+    const queryDate = DateTime.fromISO(date).toFormat('yyyy/MM/dd');
+    const form = new URLSearchParams({
+      queryStartDate: queryDate,
+      queryEndDate: queryDate,
+    });
+    const url = 'https://www.taifex.com.tw/cht/3/largeTraderOptDown';
+
+    const response = await firstValueFrom(
+      this.httpService.post(url, form, { responseType: 'arraybuffer' }),
+    );
+    const json = await csvtojson({ noheader: true, output: 'csv' }).fromString(
+      iconv.decode(response.data, 'big5'),
+    );
+    const [fields, ...rows] = json;
+    if (fields[0] !== '日期') return null;
+
+    const txoRows = rows.filter(row => row[1] === 'TXO');
+    const topTenFrontMonthTxoCallsLongOi = numeral(txoRows[2][8]).value();
+    const topTenFrontMonthTxoCallsShortOi = numeral(txoRows[2][9]).value();
+    const topTenFrontMonthTxoCallsNetOi = topTenFrontMonthTxoCallsLongOi - topTenFrontMonthTxoCallsShortOi;
+    const topTenSpecificFrontMonthTxoCallsLongOi = numeral(txoRows[3][8]).value();
+    const topTenSpecificFrontMonthTxoCallsShortOi = numeral(txoRows[3][9]).value();
+    const topTenSpecificFrontMonthTxoCallsNetOi = topTenSpecificFrontMonthTxoCallsLongOi - topTenSpecificFrontMonthTxoCallsShortOi;
+    const topTenNonspecificFrontMonthTxoCallsNetOi = topTenFrontMonthTxoCallsNetOi - topTenSpecificFrontMonthTxoCallsNetOi;
+    const topTenAllMonthsTxoCallsLongOi = numeral(txoRows[4][8]).value();
+    const topTenAllMonthsTxoCallsShortOi = numeral(txoRows[4][9]).value();
+    const topTenAllMonthsTxoCallsNetOi = topTenAllMonthsTxoCallsLongOi - topTenAllMonthsTxoCallsShortOi;
+    const topTenSpecificAllMonthsTxoCallsLongOi = numeral(txoRows[5][8]).value();
+    const topTenSpecificAllMonthsTxoCallsShortOi = numeral(txoRows[5][9]).value();
+    const topTenSpecificAllMonthsTxoCallsNetOi = topTenSpecificAllMonthsTxoCallsLongOi - topTenSpecificAllMonthsTxoCallsShortOi;
+    const topTenNonspecificAllMonthsTxoCallsNetOi = topTenAllMonthsTxoCallsNetOi - topTenSpecificAllMonthsTxoCallsNetOi;
+    const topTenSpecificBackMonthsTxoCallsNetOi = topTenSpecificAllMonthsTxoCallsNetOi - topTenSpecificFrontMonthTxoCallsNetOi;
+    const topTenNonspecificBackMonthsTxoCallsNetOi = topTenNonspecificAllMonthsTxoCallsNetOi - topTenNonspecificFrontMonthTxoCallsNetOi;
+    const allMonthsTxoCallsMarketOi = numeral(txoRows[4][10]).value();
+
+    const topTenFrontMonthTxoPutsLongOi = numeral(txoRows[8][8]).value();
+    const topTenFrontMonthTxoPutsShortOi = numeral(txoRows[8][9]).value();
+    const topTenFrontMonthTxoPutsNetOi = topTenFrontMonthTxoPutsLongOi - topTenFrontMonthTxoPutsShortOi;
+    const topTenSpecificFrontMonthTxoPutsLongOi = numeral(txoRows[9][8]).value();
+    const topTenSpecificFrontMonthTxoPutsShortOi = numeral(txoRows[9][9]).value();
+    const topTenSpecificFrontMonthTxoPutsNetOi = topTenSpecificFrontMonthTxoPutsLongOi - topTenSpecificFrontMonthTxoPutsShortOi;
+    const topTenNonspecificFrontMonthTxoPutsNetOi = topTenFrontMonthTxoPutsNetOi - topTenSpecificFrontMonthTxoPutsNetOi;
+    const topTenAllMonthsTxoPutsLongOi = numeral(txoRows[10][8]).value();
+    const topTenAllMonthsTxoPutsShortOi = numeral(txoRows[10][9]).value();
+    const topTenAllMonthsTxoPutsNetOi = topTenAllMonthsTxoPutsLongOi - topTenAllMonthsTxoPutsShortOi;
+    const topTenSpecificAllMonthsTxoPutsLongOi = numeral(txoRows[11][8]).value();
+    const topTenSpecificAllMonthsTxoPutsShortOi = numeral(txoRows[11][9]).value();
+    const topTenSpecificAllMonthsTxoPutsNetOi = topTenSpecificAllMonthsTxoPutsLongOi - topTenSpecificAllMonthsTxoPutsShortOi;
+    const topTenNonspecificAllMonthsTxoPutsNetOi = topTenAllMonthsTxoPutsNetOi - topTenSpecificAllMonthsTxoPutsNetOi;
+    const topTenSpecificBackMonthsTxoPutsNetOi = topTenSpecificAllMonthsTxoPutsNetOi - topTenSpecificFrontMonthTxoPutsNetOi;
+    const topTenNonspecificBackMonthsTxoPutsNetOi = topTenNonspecificAllMonthsTxoPutsNetOi - topTenNonspecificFrontMonthTxoPutsNetOi;
+    const allMonthsTxoPutsMarketOi = numeral(txoRows[10][10]).value();
+
+    return {
+      date,
+      topTenSpecificFrontMonthTxoCallsNetOi,
+      topTenSpecificBackMonthsTxoCallsNetOi,
+      topTenNonspecificFrontMonthTxoCallsNetOi,
+      topTenNonspecificBackMonthsTxoCallsNetOi,
+      allMonthsTxoCallsMarketOi,
+      topTenSpecificFrontMonthTxoPutsNetOi,
+      topTenSpecificBackMonthsTxoPutsNetOi,
+      topTenNonspecificFrontMonthTxoPutsNetOi,
+      topTenNonspecificBackMonthsTxoPutsNetOi,
+      allMonthsTxoPutsMarketOi,
+    };
+  }
+
   async fetchTxoPutCallRatio(options?: { date: string }) {
     const date = options?.date ?? DateTime.local().toISODate();
     const queryDate = DateTime.fromISO(date).toFormat('yyyy/MM/dd');
@@ -214,7 +284,7 @@ export class TaifexScraperService {
     const [_, row] = json;
     if (!row) return null;
     if (DateTime.fromString(row[0], 'yyyy/MM/dd').toISODate() !== date) return null;
-    
+
     const txoPutCallRatio = numeral(row[6]).divide(100).value();
 
     return { date, txoPutCallRatio };
