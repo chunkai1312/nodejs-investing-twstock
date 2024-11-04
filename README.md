@@ -17,6 +17,12 @@
 [Pubu](https://www.pubu.com.tw/ebook/398315) |
 [博客來電子書](https://www.books.com.tw/products/E050194168)
 
+## 公告
+
+### 2024-11-04
+
+由於櫃買中心網站已於 2024 年 10 月 27 日進行改版，原先提供從櫃買中心網站抓取資料的範例程式可能無法正常運行。最新的程式碼請參閱 [appendix](https://github.com/chunkai1312/nodejs-investing-twstock/blob/main/appendix/apps/scraper/src/scraper/tpex-scraper.service.ts) 中的範例。
+
 ## 書籍簡介
 
 ### 好評推薦
