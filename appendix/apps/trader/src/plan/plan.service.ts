@@ -2,10 +2,10 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { InjectRestClient } from '@fugle/marketdata-nest';
 import { InjectFugleTrade } from '@fugle/trade-nest';
-import { InjectLineNotify, LineNotify } from 'nest-line-notify';
 import { DateTime } from 'luxon';
 import { RestClient } from '@fugle/marketdata';
 import { FugleTrade, Order } from '@fugle/trade';
+import { NotifierService } from '@app/core/notifier';
 import { PlanRepository } from './plan.repository';
 import { CreatePlanDto } from './dto/create-plan.dto';
 
@@ -14,7 +14,7 @@ export class PlanService {
   constructor(
     @InjectRestClient() private readonly client: RestClient,
     @InjectFugleTrade() private readonly fugle: FugleTrade,
-    @InjectLineNotify() private readonly lineNotify: LineNotify,
+    private readonly notifierService: NotifierService,
     private readonly PlanRepository: PlanRepository,
   ) {}
 
@@ -65,7 +65,7 @@ export class PlanService {
           `時間: ${time}`,
         ]).join('\n');
 
-        await this.lineNotify.send({ message });
+        await this.notifierService.send(message);
         await this.fugle.placeOrder(order);
         const preorder = plan.preorders.find(preorder => preorder.date <= date && preorder.placed === false);
         await this.PlanRepository.updateExecutedPlan(plan.id, preorder.date);

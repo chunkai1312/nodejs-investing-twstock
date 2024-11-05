@@ -23,6 +23,10 @@
 
 由於櫃買中心網站已於 2024 年 10 月 27 日進行改版，原先提供從櫃買中心網站抓取資料的範例程式可能無法正常運行。最新的程式碼請參閱 [appendix](https://github.com/chunkai1312/nodejs-investing-twstock/blob/main/appendix/apps/scraper/src/scraper/tpex-scraper.service.ts) 中的範例。
 
+### 2024-11-06
+
+根據 LINE Notify 的結束服務公告，LINE Notify 將於 2025 年 4 月停止運作。為確保通知服務的持續運作，替代方案請參閱 [附錄：LINE Notify 替代方案](https://github.com/chunkai1312/nodejs-investing-twstock/blob/main/appendix/README.md)。
+
 ## 書籍簡介
 
 ### 好評推薦

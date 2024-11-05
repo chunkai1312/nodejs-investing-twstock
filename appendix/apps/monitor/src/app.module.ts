@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { FugleMarketDataModule } from '@fugle/marketdata-nest';
-import { LineNotifyModule } from 'nest-line-notify';
+import { Notifier, NotifierModule } from '@app/core/notifier';
 import { MonitorModule } from './monitor/monitor.module';
 
 @Module({
@@ -19,9 +19,7 @@ import { MonitorModule } from './monitor/monitor.module';
     FugleMarketDataModule.forRoot({
       apiKey: process.env.FUGLE_MARKETDATA_API_KEY,
     }),
-    LineNotifyModule.forRoot({
-      accessToken: process.env.LINE_NOTIFY_ACCESS_TOKEN,
-    }),
+    NotifierModule.use(Notifier.Line),
     MonitorModule,
   ],
 })

@@ -3,7 +3,7 @@ import { Inject, Injectable, Logger, NotFoundException, OnApplicationBootstrap, 
 import { ClientProxy } from '@nestjs/microservices';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import { InjectWebSocketClient } from '@fugle/marketdata-nest';
-import { InjectLineNotify, LineNotify } from 'nest-line-notify';
+import { NotifierService } from '@app/core/notifier';
 import { Redis } from 'ioredis';
 import { DateTime } from 'luxon';
 import { WebSocketClient } from '@fugle/marketdata';
@@ -21,7 +21,7 @@ export class MonitorService implements OnApplicationBootstrap, OnApplicationShut
     @Inject(TRADER_SERVICE) private readonly traderService: ClientProxy,
     @InjectRedis() private readonly redis: Redis,
     @InjectWebSocketClient() private readonly client: WebSocketClient,
-    @InjectLineNotify() private readonly lineNotify: LineNotify,
+    private readonly notifierService: NotifierService,
     private readonly monitorRepository: MonitorRepository,
   ) {}
 
@@ -139,7 +139,7 @@ export class MonitorService implements OnApplicationBootstrap, OnApplicationShut
       `時間: ${time}`,
     ]).join('\n');
 
-    await this.lineNotify.send({ message })
+    await this.notifierService.send(message)
       .then(() => this.monitorRepository.triggerMonitor(_id))
       .catch(err => Logger.error(err.message, err.stack, MonitorService.name));
   }
@@ -161,7 +161,7 @@ export class MonitorService implements OnApplicationBootstrap, OnApplicationShut
 
     this.traderService.emit('place-order', order);
 
-    await this.lineNotify.send({ message })
+    await this.notifierService.send(message)
       .then(() => this.monitorRepository.triggerMonitor(_id))
       .catch((err) => Logger.error(err.message, err.stack, MonitorService.name));
   }

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { InjectLineNotify, LineNotify } from 'nest-line-notify';
+import { NotifierService } from '@app/core/notifier';
 import { DateTime } from 'luxon';
 import { TickerRepository } from '../ticker/ticker.repository';
 
@@ -9,7 +9,7 @@ import { TickerRepository } from '../ticker/ticker.repository';
 export class ScreenerService {
   constructor(
     private readonly tickerRepository: TickerRepository,
-    @InjectLineNotify() private readonly lineNotify: LineNotify,
+    private readonly notifierService: NotifierService,
   ) {}
 
   @Cron('0 30 22 * * *')
@@ -23,7 +23,7 @@ export class ScreenerService {
       `資料日期: ${DateTime.fromISO(dataDate).toFormat('yyyy/MM/dd')}`,
     ]).join('\n');
 
-    await this.lineNotify.send({ message })
+    await this.notifierService.send(message)
       .then(() => Logger.log(`"${name}" 已送出`, ScreenerService.name))
       .catch((err) => Logger.error(err.message, err.stack, ScreenerService.name));
   }
