@@ -4,8 +4,8 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
 import { FugleMarketDataModule } from '@fugle/marketdata-nest';
 import { FugleTradeModule } from '@fugle/trade-nest';
-import { LineNotifyModule } from 'nest-line-notify';
 import { IpFilter } from 'nestjs-ip-filter';
+import { Notifier, NotifierModule } from '@app/core/notifier';
 import { TraderModule } from './trader/trader.module';
 import { PlanModule } from './plan/plan.module';
 
@@ -28,9 +28,6 @@ import { PlanModule } from './plan/plan.module';
         certPass: process.env.FUGLE_TRADE_CERT_PASS,
       },
     }),
-    LineNotifyModule.forRoot({
-      accessToken: process.env.LINE_NOTIFY_ACCESS_TOKEN,
-    }),
     IpFilter.register({
       whitelist: String(process.env.ALLOWED_IPS).split(','),
     }),
@@ -38,4 +35,11 @@ import { PlanModule } from './plan/plan.module';
     PlanModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  static register(options: { notifier: Notifier }) {
+    return {
+      module: AppModule,
+      imports: [NotifierModule.use(options.notifier)],
+    };
+  }
+}

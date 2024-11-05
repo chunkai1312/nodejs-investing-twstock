@@ -2,7 +2,7 @@
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectFugleTrade, Streamer } from '@fugle/trade-nest';
 import { FugleTrade, Order, OrderPayload } from '@fugle/trade';
-import { InjectLineNotify, LineNotify } from 'nest-line-notify';
+import { NotifierService } from '@app/core/notifier';
 import { PlaceOrderDto } from './dto/place-order.dto';
 import { ReplaceOrderDto } from './dto/replace-order.dto';
 import { GetTransactionsDto } from './dto/get-transactions.dto';
@@ -14,7 +14,7 @@ export class TraderService {
 
   constructor(
     @InjectFugleTrade() private readonly fugle: FugleTrade,
-    @InjectLineNotify() private readonly lineNotify: LineNotify,
+    private readonly notifierService: NotifierService,
   ) {}
 
   async getOrders() {
@@ -137,7 +137,7 @@ export class TraderService {
       `${stockNo}: ${price} ${priceUnit} ${orderType} ${tradeType} ${side} ${info}`,
     ]).join('\n');
 
-    await this.lineNotify.send({ message })
+    await this.notifierService.send(message)
       .catch((err) => this.logger.error(err.message, err.stack));
   }
 
@@ -158,7 +158,7 @@ export class TraderService {
       `${stockNo}: ${price} ${priceUnit} ${tradeType} ${side} ${size} ${sizeUnit} 已成交`,
     ]).join('\n');
 
-    await this.lineNotify.send({ message })
+    await this.notifierService.send(message)
       .catch((err) => this.logger.error(err.message, err.stack));
   }
 

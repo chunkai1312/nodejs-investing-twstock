@@ -3,8 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { LineNotifyModule } from 'nest-line-notify';
 import { DateTime } from 'luxon';
+import { Notifier, NotifierModule } from '@app/core/notifier';
 import { ScraperModule } from './scraper/scraper.module';
 import { MarketStatsModule } from './market-stats/market-stats.module';
 import { TickerModule } from './ticker/ticker.module';
@@ -31,9 +31,6 @@ import { ScreenerModule } from './screener/screener.module';
         to: process.env.NODEMAILER_TO,
       },
     }),
-    LineNotifyModule.forRoot({
-      accessToken: process.env.LINE_NOTIFY_ACCESS_TOKEN,
-    }),
     ScraperModule,
     MarketStatsModule,
     TickerModule,
@@ -46,6 +43,13 @@ export class AppModule implements OnApplicationBootstrap {
     private readonly marketStatsService: MarketStatsService,
     private readonly tickerService: TickerService
   ) {}
+
+  static register(options: { notifier: Notifier }) {
+    return {
+      module: AppModule,
+      imports: [NotifierModule.use(options.notifier)],
+    };
+  }
 
   async onApplicationBootstrap() {
     if (process.env.SCRAPER_INIT_ENABLED === 'true') {
