@@ -19,6 +19,10 @@
 
 ## 公告
 
+### 2024-11-21
+
+近期由於證交所與櫃買中心網站的調整與更新，部分資料抓取範例程式可能已無法正常運作。為協助讀者解決相關問題，作者特別整理並持續維護了一個 [node-twstock](https://github.com/chunkai1312/node-twstock) 套件，其中涵蓋了本書中使用的市場資料抓取範例，歡迎讀者參考使用。
+
 ### 2024-11-04
 
 由於櫃買中心網站已於 2024 年 10 月 27 日進行改版，原先提供從櫃買中心網站抓取資料的範例程式可能無法正常運行。最新的程式碼請參閱 [appendix](https://github.com/chunkai1312/nodejs-investing-twstock/blob/main/appendix/apps/scraper/src/scraper/tpex-scraper.service.ts) 中的範例。
