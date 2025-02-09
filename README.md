@@ -1,6 +1,6 @@
 # 《Node.js量化投資全攻略：從資料收集到自動化交易系統建構實戰》範例程式碼
 
-<a href="https://www.tenlong.com.tw/products/9786263336025">
+<a href="https://www.tenlong.com.tw/products/9786263336070">
   <img src="https://cf-assets2.tenlong.com.tw/products/images/000/194/990/original/9786263336070.jpg" height="50%" width="50%" alt="Node.js量化投資全攻略：從資料收集到自動化交易系統建構實戰">
 </a>
 
